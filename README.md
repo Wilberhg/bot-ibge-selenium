@@ -30,7 +30,7 @@ git clone https://github.com/Wilberhg/bot-ibge-selenium.git
 
 Go to the project directory
 ```bash
-  cd bot-ibge-selenium
+cd bot-ibge-selenium
 ```
 
 Install dependencies
