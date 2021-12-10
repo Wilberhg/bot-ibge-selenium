@@ -8,6 +8,7 @@ class Ibge(webdriver.Chrome):
         self.driver_path = driver_path
         self.teardown = teardown
         self._infos_table = []
+        self.util = Utilities()
         os.environ['PATH'] += ';'+self.driver_path
         options = webdriver.ChromeOptions()
         options.add_experimental_option('excludeSwitches', ['enable-looging'])
@@ -26,7 +27,7 @@ class Ibge(webdriver.Chrome):
         list_divisoes = self.find_elements_by_xpath(
             '//a[contains(text(), "..")]'
             )
-        list_divisoes = Utilities().extract_and_clean(list_divisoes)
+        list_divisoes = self.util.extract_and_clean(list_divisoes)
         return list_divisoes
 
     def click_secao(self, list_secao, iterator):
@@ -38,18 +39,18 @@ class Ibge(webdriver.Chrome):
         infos_secao = self.find_elements_by_css_selector(
             'span[class="destaque"]'
             )
-        self._code_secao, self._name_secao = Utilities().separate_words(infos_secao)
+        self._code_secao, self._name_secao = self.util.separate_words(infos_secao)
         # self._infos_table.append([code_secao, name_secao])
 
     def get_divisao(self):
         list_divisao = self.find_elements_by_css_selector(
             'td[class="codigo"] a'
             )
-        list_divisao = Utilities().extract_and_clean(list_divisao)
+        list_divisao = self.util.extract_and_clean(list_divisao)
         return list_divisao
 
     def click_divisao(self, divisao):
-        Utilities().retry_with_refresh(self, divisao)
+        self.util.retry_with_refresh(self, divisao)
         # self.find_element_by_xpath(f'//a[text()="{divisao}"]').click()
         # self.get(self.current_url)
 
@@ -57,7 +58,7 @@ class Ibge(webdriver.Chrome):
         infos_divisao = self.find_elements_by_css_selector(
             'span[class="destaque"]'
             )
-        self._code_divisao, self._name_divisao = Utilities().separate_words(infos_divisao)
+        self._code_divisao, self._name_divisao = self.util.separate_words(infos_divisao)
         # self._infos_table[-1].append(code_divisao)
         # self._infos_table[-1].append(name_divisao)
 
@@ -65,11 +66,11 @@ class Ibge(webdriver.Chrome):
         list_grupo = self.find_elements_by_css_selector(
             'td[class="codigo n1"] a'
             )
-        list_grupo = Utilities().extract_and_clean(list_grupo)
+        list_grupo = self.util.extract_and_clean(list_grupo)
         return list_grupo
 
     def click_grupo(self, grupo):
-        Utilities().retry_with_refresh(self, grupo)
+        self.util.retry_with_refresh(self, grupo)
         # self.find_element_by_xpath(f'//a[text()="{grupo}"]').click()
         # self.get(self.current_url)
 
@@ -77,7 +78,7 @@ class Ibge(webdriver.Chrome):
         infos_grupo = self.find_elements_by_css_selector(
             'span[class="destaque"]'
             )
-        self._code_grupo, self._name_grupo = Utilities().separate_words(infos_grupo)
+        self._code_grupo, self._name_grupo = self.util.separate_words(infos_grupo)
         # self._infos_table[-1].append(code_grupo)
         # self._infos_table[-1].append(name_grupo)
 
@@ -85,19 +86,19 @@ class Ibge(webdriver.Chrome):
         list_classe = self.find_elements_by_css_selector(
             'td[class="codigo n2"] a'
             )
-        list_classe = Utilities().extract_and_clean(list_classe)
+        list_classe = self.util.extract_and_clean(list_classe)
         return list_classe
 
     def click_classe(self, classe):
         # self.find_element_by_xpath(f'//a[text()="{classe}"]').click()
-        Utilities().retry_with_refresh(self, classe)
+        self.util.retry_with_refresh(self, classe)
         # self.get(self.current_url)
 
     def get_classe_infos(self):
         infos_classe = self.find_elements_by_css_selector(
             'span[class="destaque"]'
             )
-        self._code_classe, self._name_classe = Utilities().separate_words(infos_classe)
+        self._code_classe, self._name_classe = self.util.separate_words(infos_classe)
         # self._infos_table[-1].append(code_classe)
         # self._infos_table[-1].append(name_classe)
 
@@ -108,7 +109,7 @@ class Ibge(webdriver.Chrome):
         return subclasse_elements
 
     def get_subclasse_infos(self, subclasse):
-        self._code_subclasse, self._name_subclasse = Utilities().separate_words(subclasse)
+        self._code_subclasse, self._name_subclasse = self.util.separate_words(subclasse)
         # self._infos_table[-1].append(code_subclasse)
         # self._infos_table[-1].append(name_subclasse)
 
@@ -119,16 +120,16 @@ class Ibge(webdriver.Chrome):
         self.find_element_by_css_selector(
             'td[class="codigo n1"] a'
             ).click()
-        Utilities().set_time(5)
+        self.util.set_time(5)
 
     def back_to_divisao(self):
         self.find_element_by_css_selector(
             'td[class="codigo"] a'
             ).click()
-        Utilities().set_time(5)
+        self.util.set_time(5)
 
     def back_to_secao(self):
         self.find_element_by_css_selector(
             'table[class="tabela-hierarquia"] a'
             ).click()
-        Utilities().set_time(5)
+        self.util.set_time(5)
