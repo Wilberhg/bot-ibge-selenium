@@ -4,12 +4,13 @@ from ibge.utilities import Utilities
 import os
 
 class Ibge(webdriver.Chrome):
-    def __init__(self, driver_path="C:/SeleniumDrivers", teardown=False):
-        self.driver_path = driver_path
+    # def __init__(self, driver_path="C:/SeleniumDrivers", teardown=False):
+    def __init__(self, teardown=False):
+        # self.driver_path = driver_path
         self.teardown = teardown
         self._infos_table = []
         self.util = Utilities()
-        os.environ['PATH'] += ';'+self.driver_path
+        os.environ['PATH'] += ';'+self.util.get_webdriver()+'.exe'
         options = webdriver.ChromeOptions()
         options.add_experimental_option('excludeSwitches', ['enable-looging'])
         super().__init__(options=options)
@@ -19,6 +20,9 @@ class Ibge(webdriver.Chrome):
     def __exit__(self, *args):
         if self.teardown:
             self.quit()
+
+    def get_infos_table(self):
+        return self._infos_table
 
     def access_main_page(self):
         self.get(const.BASE_URL)

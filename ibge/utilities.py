@@ -1,10 +1,16 @@
 from selenium.webdriver.remote.webelement import WebElement
+from datetime import datetime
 import time
+import pyderman as dr
+import os
 
 class Utilities:
-    def __init__(self):
-        ...
 
+    def get_webdriver(self):
+        path = dr.install(browser=dr.chrome, file_directory='./driver', overwrite=True, filename='chromedriver.exe', verbose=False)
+        path = path.rsplit('\\', 1)[0]
+        return path
+    
     def extract_and_clean(self, list_elements):
         list_elements = [element.text.strip() for element in list_elements]
         return list_elements
@@ -40,3 +46,11 @@ class Utilities:
             driver.find_element_by_xpath(f'//a[text()="{element}"]').click()
         finally:
             driver.get(driver.current_url)
+
+    def register_log(self, error):
+        dt_today = datetime.now()
+        dt_now = dt_today.strftime('%d_%m_%Y')
+        hr_now = dt_today.strftime('%H:%M:%S')
+        os.makedirs('./logs', exist_ok=True)
+        with open(f'./logs/Log_{dt_now}.txt', 'a+') as arqv:
+            arqv.write(f'{hr_now} ::: {error}\n')
