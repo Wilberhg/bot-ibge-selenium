@@ -10,7 +10,7 @@ class Ibge(webdriver.Chrome):
         self.teardown = teardown
         self._infos_table = []
         self.util = Utilities()
-        os.environ['PATH'] += ';'+self.util.get_webdriver()+'.exe'
+        os.environ['PATH'] += ';'+self.util.get_webdriver()
         options = webdriver.ChromeOptions()
         options.add_experimental_option('excludeSwitches', ['enable-looging'])
         super().__init__(options=options)
